@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Codystar&display=swap");
+@import "tailwindcss";
 
 :root {
   --color-darkest: #343a40;
