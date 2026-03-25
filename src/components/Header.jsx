@@ -1,4 +1,4 @@
-import reactLogo from "./assets/react.svg"; //harus import karena react.svg berada di src dan folder src diperlakukan oleh React/vite/webpack sebagai kode yang harus diproses oleh bundler
+import reactLogo from "../assets/react.svg"; //harus import karena react.svg berada di src dan folder src diperlakukan oleh React/vite/webpack sebagai kode yang harus diproses oleh bundler
 
 function Header() {
   return (

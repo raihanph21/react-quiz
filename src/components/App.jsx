@@ -1,12 +1,16 @@
 import { useEffect, useReducer } from "react";
 import Header from "./Header";
 import Utama from "./Utama";
+import Loader from "./Loader";
+import StartScreen from "./StartScreen";
+import Questions from "./Questions";
 
 const initialState = {
   questions: [],
 
   //'loading', 'error', 'ready', 'active', 'finished'
   status: "loading",
+  index: 0
 };
 
 function reducer(state, action) {
@@ -22,13 +26,20 @@ function reducer(state, action) {
         ...state,
         status: "error",
       };
+    case "start":
+      return {
+        ...state, 
+        status: "active"
+      }
     default:
       throw new Error("Action unknown");
   }
 }
 
 export default function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [{questions, status, index}, dispatch] = useReducer(reducer, initialState);
+
+  const numQuestions = questions.length
 
   useEffect(function () {
     fetch("http://localhost:8000/questions")
@@ -41,8 +52,10 @@ export default function App() {
     <div className="app">
       <Header />
       <Utama>
-        <p>1/15</p>
-        <p>Question?</p>
+        {status === "loading" && <Loader />}
+        {status === "error" && <Error />}
+        {status === "ready" && <StartScreen dispatch={dispatch} numQuestions={numQuestions}/>}
+        {status === "active" && <Questions key={index} questions={questions[index]}/>}
       </Utama>
     </div>
   );
