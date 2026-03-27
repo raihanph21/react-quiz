@@ -10,10 +10,14 @@ const initialState = {
 
   //'loading', 'error', 'ready', 'active', 'finished'
   status: "loading",
-  index: 0
+  index: 0,
+  answer: null,
+  score: 0,
 };
 
 function reducer(state, action) {
+  const currentQuestion = state.questions.at(state.index);
+
   switch (action.type) {
     case "dataReceived":
       return {
@@ -28,18 +32,30 @@ function reducer(state, action) {
       };
     case "start":
       return {
-        ...state, 
-        status: "active"
-      }
+        ...state,
+        status: "active",
+      };
+    case "newAnswer":
+      return {
+        ...state,
+        answer: action.payload,
+        score:
+          action.payload === currentQuestion.correctOption
+            ? state.score + currentQuestion.points
+            : state.score,
+      };
     default:
       throw new Error("Action unknown");
   }
 }
 
 export default function App() {
-  const [{questions, status, index}, dispatch] = useReducer(reducer, initialState);
+  const [{ questions, status, index, answer, score }, dispatch] = useReducer(
+    reducer,
+    initialState,
+  );
 
-  const numQuestions = questions.length
+  const numQuestions = questions.length;
 
   useEffect(function () {
     fetch("http://localhost:8000/questions")
@@ -54,8 +70,18 @@ export default function App() {
       <Utama>
         {status === "loading" && <Loader />}
         {status === "error" && <Error />}
-        {status === "ready" && <StartScreen dispatch={dispatch} numQuestions={numQuestions}/>}
-        {status === "active" && <Questions key={index} questions={questions[index]}/>}
+        {status === "ready" && (
+          <StartScreen dispatch={dispatch} numQuestions={numQuestions} />
+        )}
+        {status === "active" && (
+          <Questions
+            key={index}
+            questions={questions[index]}
+            dispatch={dispatch}
+            answer={answer}
+            score={score}
+          />
+        )}
       </Utama>
     </div>
   );
