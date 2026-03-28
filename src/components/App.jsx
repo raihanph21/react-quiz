@@ -4,6 +4,7 @@ import Utama from "./Utama";
 import Loader from "./Loader";
 import StartScreen from "./StartScreen";
 import Questions from "./Questions";
+import NextButton from "./NextButton";
 
 const initialState = {
   questions: [],
@@ -44,6 +45,12 @@ function reducer(state, action) {
             ? state.score + currentQuestion.points
             : state.score,
       };
+    case "nextQuestion":
+      return {
+        ...state,
+        index: state.index + 1,
+        answer: null,
+      };
     default:
       throw new Error("Action unknown");
   }
@@ -68,19 +75,22 @@ export default function App() {
     <div className="app">
       <Header />
       <Utama>
-        {status === "loading" && <Loader />}
+        {status === "loading" && <Loader />}{" "}
+        {/*if status equals "loading" (true), then return the second value */}
         {status === "error" && <Error />}
         {status === "ready" && (
           <StartScreen dispatch={dispatch} numQuestions={numQuestions} />
         )}
         {status === "active" && (
-          <Questions
-            key={index}
-            questions={questions[index]}
-            dispatch={dispatch}
-            answer={answer}
-            score={score}
-          />
+          <>
+            <Questions
+              questions={questions[index]}
+              dispatch={dispatch}
+              answer={answer}
+              score={score}
+            />
+            <NextButton dispatch={dispatch} answer={answer} />
+          </>
         )}
       </Utama>
     </div>
