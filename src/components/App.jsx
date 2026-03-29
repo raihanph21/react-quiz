@@ -64,6 +64,8 @@ export default function App() {
 
   const numQuestions = questions.length;
 
+  const totalPoints = questions.reduce((sum, item) => sum + item.points, 0);
+
   useEffect(function () {
     fetch("http://localhost:8000/questions")
       .then((res) => res.json())
@@ -88,6 +90,9 @@ export default function App() {
               dispatch={dispatch}
               answer={answer}
               score={score}
+              totalPoints={totalPoints}
+              numQuestions={numQuestions}
+              index={index}
             />
             <NextButton dispatch={dispatch} answer={answer} />
           </>
