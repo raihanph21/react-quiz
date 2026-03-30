@@ -5,6 +5,7 @@ import Loader from "./Loader";
 import StartScreen from "./StartScreen";
 import Questions from "./Questions";
 import NextButton from "./NextButton";
+import FinishScreen from "./FinishScreen";
 
 const initialState = {
   questions: [],
@@ -94,8 +95,16 @@ export default function App() {
               numQuestions={numQuestions}
               index={index}
             />
-            <NextButton dispatch={dispatch} answer={answer} />
+            <NextButton
+              dispatch={dispatch}
+              answer={answer}
+              index={index}
+              numQuestions={numQuestions}
+            />
           </>
+        )}
+        {status === "finished" && (
+          <FinishScreen score={score} totalPoints={totalPoints} />
         )}
       </Utama>
     </div>

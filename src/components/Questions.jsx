@@ -1,4 +1,5 @@
 import Options from "./Options";
+import Progress from "./Progress";
 
 function Questions({
   questions,
@@ -11,12 +12,14 @@ function Questions({
 }) {
   return (
     <div>
-      <h4>
-        {index + 1} out of {numQuestions}
-      </h4>
-      <h4>
-        Score: {score}/{totalPoints}
-      </h4>
+      <p>
+        <Progress
+          index={index}
+          numQuestions={numQuestions}
+          score={score}
+          totalPoints={totalPoints}
+        />
+      </p>
       <h4>{questions.question}</h4>
       <Options questions={questions} dispatch={dispatch} answer={answer} />
     </div>
