@@ -52,6 +52,11 @@ function reducer(state, action) {
         index: state.index + 1,
         answer: null,
       };
+    case "finish":
+      return {
+        ...state,
+        status: "finished",
+      };
     default:
       throw new Error("Action unknown");
   }
