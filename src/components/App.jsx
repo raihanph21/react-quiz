@@ -15,6 +15,7 @@ const initialState = {
   index: 0,
   answer: null,
   score: 0,
+  highscore: 0,
 };
 
 function reducer(state, action) {
@@ -56,6 +57,21 @@ function reducer(state, action) {
       return {
         ...state,
         status: "finished",
+        highscore:
+          state.score > state.highscore ? state.score : state.highscore,
+      };
+    case "restart":
+      // return {
+      //   ...initialState,
+      //   questions: state.questions,
+      //   status: "ready",
+      // };
+      return {
+        ...state,
+        status: "ready",
+        index: 0,
+        answer: null,
+        score: 0,
       };
     default:
       throw new Error("Action unknown");
@@ -63,10 +79,8 @@ function reducer(state, action) {
 }
 
 export default function App() {
-  const [{ questions, status, index, answer, score }, dispatch] = useReducer(
-    reducer,
-    initialState,
-  );
+  const [{ questions, status, index, answer, score, highscore }, dispatch] =
+    useReducer(reducer, initialState);
 
   const numQuestions = questions.length;
 
@@ -109,7 +123,12 @@ export default function App() {
           </>
         )}
         {status === "finished" && (
-          <FinishScreen score={score} totalPoints={totalPoints} />
+          <FinishScreen
+            score={score}
+            totalPoints={totalPoints}
+            highscore={highscore}
+            dispatch={dispatch}
+          />
         )}
       </Utama>
     </div>
