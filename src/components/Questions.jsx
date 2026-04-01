@@ -12,14 +12,12 @@ function Questions({
 }) {
   return (
     <div>
-      <p>
-        <Progress
-          index={index}
-          numQuestions={numQuestions}
-          score={score}
-          totalPoints={totalPoints}
-        />
-      </p>
+      <Progress
+        index={index}
+        numQuestions={numQuestions}
+        score={score}
+        totalPoints={totalPoints}
+      />
       <h4>{questions.question}</h4>
       <Options questions={questions} dispatch={dispatch} answer={answer} />
     </div>
